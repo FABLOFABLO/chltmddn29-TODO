@@ -8,10 +8,10 @@ class Todo extends StatefulWidget {
 }
 
 class _TodoState extends State<Todo> {
-  String title="";
+  String title = "";
   final List<Widget> todo = [];
-  final TextEditingController TextEditingController1 = TextEditingController();
-  final TextEditingController TextEditingController2 = TextEditingController();
+  final TextEditingController textEditingController1 = TextEditingController();
+  final TextEditingController textEditingController2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class _TodoState extends State<Todo> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextField(
-                        controller: TextEditingController1,
+                        controller: textEditingController1,
                         decoration: InputDecoration(
                           hintText: '할일',
                           filled: true,
@@ -45,7 +45,7 @@ class _TodoState extends State<Todo> {
                           suffixIcon: IconButton(
                             icon: Icon(Icons.clear),
                             onPressed: () {
-                              TextEditingController1.clear();
+                              textEditingController1.clear();
                             },
                           ),
                           enabledBorder: OutlineInputBorder(
@@ -62,7 +62,7 @@ class _TodoState extends State<Todo> {
                       SizedBox(
                         width: 300,
                         child: TextField(
-                          controller: TextEditingController2,
+                          controller: textEditingController2,
                           decoration: InputDecoration(
                             hintText: '구체적인 내용',
                             filled: true,
@@ -71,7 +71,7 @@ class _TodoState extends State<Todo> {
                             suffixIcon: IconButton(
                               icon: Icon(Icons.clear),
                               onPressed: () {
-                                TextEditingController2.clear();
+                                textEditingController2.clear();
                               },
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -88,36 +88,27 @@ class _TodoState extends State<Todo> {
                   ),
                 ),
 
-
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      setState((
-                          ) {
+                      setState(() {
                         todo.add(
-                            Container(
-                          decoration: BoxDecoration(
-                            color: Colors.lightBlue,
-                          ),
-                          height: 100,
-                          width: 100,
-                        child: Column(
-                          children: [
-                            Text(
-                              TextEditingController1.text
+                          Container(
+                            decoration: BoxDecoration(color: Colors.lightBlue),
+                            height: 100,
+                            width: 100,
+                            child: Column(
+                              children: [
+                                Text(textEditingController1.text),
+                                Text(textEditingController2.text),
+                              ],
                             ),
-                            Text(
-                              TextEditingController2.text
-                            )
-                          ],
-                        ),
-
-                        ));
-                        TextEditingController1.clear();
-                        TextEditingController2.clear();
+                          ),
+                        );
+                        textEditingController1.clear();
+                        textEditingController2.clear();
                       });
-
                     },
                     child: const Text('추가하기', style: TextStyle(fontSize: 20)),
                   ),
@@ -129,14 +120,25 @@ class _TodoState extends State<Todo> {
         child: Icon(Icons.add),
       ),
       body: ListView.builder(
-        itemBuilder: (context,_TodoState) {
-          return InkWell(
-            child: ListTile(
-              title: Text('wow'),
-            ),
+        shrinkWrap: true,
+        itemCount: todo.length,
+        itemBuilder: (context, int index) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('할일', style: TextStyle(fontSize: 40)),
+              IconButton(
+                icon: Icon(Icons.delete),
+                iconSize: 40,
+                onPressed: () {
+                setState(() {
+                  todo.removeAt(index);
+                });
+                },
+              ),
+            ],
           );
         },
-        itemCount: todo.length,
       ),
     );
   }
