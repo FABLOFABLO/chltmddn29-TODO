@@ -64,7 +64,7 @@ class _TodoState extends State<Todo> {
                         child: TextField(
                           controller: textEditingController2,
                           decoration: InputDecoration(
-                            hintText: '구체적인 내용',
+                            hintText: '구체적인 내용을 입력하세요',
                             filled: true,
                             fillColor: Color(0xffF5F5F5),
                             prefixIcon: Icon(Icons.add),
